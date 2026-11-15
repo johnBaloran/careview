@@ -3,6 +3,7 @@
 import Box from "@mui/material/Box";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { useParams } from "next/navigation";
@@ -43,6 +44,7 @@ function describeTrend(series: TrendSeries): string {
 }
 
 function TrendChart({ series }: { series: TrendSeries }) {
+  const theme = useTheme();
   // role="img" with a text summary: screen readers get the gist; the table view has every value.
   return (
     <Box role="img" aria-label={describeTrend(series)}>
@@ -62,6 +64,7 @@ function TrendChart({ series }: { series: TrendSeries }) {
             data: series.points.map((p) => p.value),
             label: series.display,
             showMark: true,
+            color: theme.palette.primary.main,
           },
         ]}
         hideLegend

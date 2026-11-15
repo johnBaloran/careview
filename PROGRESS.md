@@ -90,6 +90,11 @@
   StatusChip; keyboard-path tests (status filter is one Tab stop with arrow keys, as MUI's roving tabindex intends). Locally: lint,
   typecheck, format:check, test (158 passed, no warnings) and build exit 0; `/no-such-page` → 404. Negative check: restoring MUI's
   default info colour fails the contrast test. UNVERIFIED: real-browser keyboard walkthrough and 375 px layout (no browser used).
+- 2026-11-15: M4b merged (`4d37b55`, PR #11); CI on `main` passed.
+- 2026-11-15: First real-browser check (headless Chrome 157 via the DevTools protocol, production build) found: (1) at 375 px the page
+  was 391 px wide: a visually-hidden status used `width: 1` (MUI sx reads ≤1 as 100%), the pagination bar overflowed, and table cells
+  wrapped to 3 lines; (2) the chart line looked missing in a quick CLI screenshot, but CDP showed the path drawn (capture timing), so
+  only its colour changed (theme teal). Fixed on `fix/m4-visual-fixes`; re-measured: every page's scrollWidth = 375 at 375 px.
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).

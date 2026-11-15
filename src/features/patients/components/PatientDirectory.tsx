@@ -25,10 +25,14 @@ import {
 import { PatientSearchForm, type StatusFilter } from "./PatientSearchForm";
 import { PatientTable } from "./PatientTable";
 
+// Explicit px: in MUI's sx a number <= 1 is a fraction (width: 1 would mean 100%).
 const visuallyHidden = {
   position: "absolute",
-  width: 1,
-  height: 1,
+  width: "1px",
+  height: "1px",
+  margin: "-1px",
+  padding: 0,
+  border: 0,
   overflow: "hidden",
   clip: "rect(0 0 0 0)",
   whiteSpace: "nowrap",

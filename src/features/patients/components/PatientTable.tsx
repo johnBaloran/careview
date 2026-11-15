@@ -93,7 +93,13 @@ export function PatientTable(props: PatientTableProps) {
         {refreshing ? <LinearProgress aria-label="Loading patients" /> : null}
       </Box>
       <TableContainer>
-        <Table size="small" aria-label="Patients" aria-busy={refreshing}>
+        <Table
+          size="small"
+          aria-label="Patients"
+          aria-busy={refreshing}
+          // Keep each value on one line; on narrow screens the table scrolls inside its card.
+          sx={{ "& th, & td": { whiteSpace: "nowrap" } }}
+        >
           <TableHead>
             <TableRow>
               <SortableHeader
@@ -150,6 +156,16 @@ export function PatientTable(props: PatientTableProps) {
         </Table>
       </TableContainer>
       <TablePagination
+        // MUI's pagination bar is wider than a phone screen; let it wrap there.
+        sx={{
+          "& .MuiTablePagination-toolbar": {
+            flexWrap: "wrap",
+            px: { xs: 1, sm: 2 },
+          },
+          "& .MuiTablePagination-spacer": {
+            display: { xs: "none", sm: "block" },
+          },
+        }}
         component="div"
         count={total}
         page={page - 1}
