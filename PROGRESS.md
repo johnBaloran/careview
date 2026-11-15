@@ -1,9 +1,9 @@
 # CareView: progress
 
 **Current milestone:** M3 Patient chart
-**Active task:** M3b chart layout, banner and section tabs, branch `feat/m3-chart-ui`
-**Next task:** M3c chart summary
-**Last verified commit:** `c13ab8f` on `main` (PR #7; CI green on main)
+**Active task:** M3c chart summary, branch `feat/m3-chart-summary`
+**Next task:** M4 observation trend and polish
+**Last verified commit:** `26ed6ab` on `main` (PR #8; CI green on main)
 
 ## Milestones
 | Milestone | Status |
@@ -69,6 +69,11 @@
   Suspense with a non-highlighted fallback. Locally: lint, typecheck, format:check, test (130 passed, no warnings) and build exit 0;
   chart routes are partially prerendered (◐). Negative check: flipping keepPreviousData's default fails the wrong-patient test.
   Known: unknown patient IDs show "Patient not found" in the browser but the page responds HTTP 200 (client-side fetch).
+- 2026-11-14: M3b merged (`26ed6ab`, PR #8); CI on `main` passed.
+- 2026-11-14: M3c implemented on `feat/m3-chart-summary`: Summary tab with three independent cards (active conditions, upcoming +
+  last three encounters, latest vital per type) and "View all" links; shared SectionCard and ResourceContent (ChartSection refactored
+  onto them; its 12 tests still pass). Locally: lint, typecheck, format:check, test (138 passed, no warnings) and build exit 0.
+  Negative check: removing the active-only filter fails its test. One failing card leaves the others working (tested).
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
