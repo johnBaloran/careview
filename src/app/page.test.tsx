@@ -1,12 +1,12 @@
-import { render, screen } from "@testing-library/react";
+import { redirect } from "next/navigation";
 
 import HomePage from "./page";
 
+jest.mock("next/navigation", () => ({ redirect: jest.fn() }));
+
 describe("HomePage", () => {
-  it("shows the product name as the main heading", () => {
-    render(<HomePage />);
-    expect(
-      screen.getByRole("heading", { level: 1, name: "CareView" }),
-    ).toBeInTheDocument();
+  it("sends visitors to the patient directory", () => {
+    HomePage();
+    expect(redirect).toHaveBeenCalledWith("/patients");
   });
 });
