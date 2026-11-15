@@ -1,9 +1,9 @@
 # CareView: progress
 
 **Current milestone:** M4 Observations and polish
-**Active task:** M4a observation trend, branch `feat/m4-observation-trend`
-**Next task:** M4b accessibility and responsive polish
-**Last verified commit:** `16f544d` on `main` (PR #9; CI green on main)
+**Active task:** M4b accessibility and responsive polish, branch `feat/m4-a11y-polish`
+**Next task:** M4c README and demo script
+**Last verified commit:** `72c0cef` on `main` (PR #10; CI green on main)
 
 ## Milestones
 | Milestone | Status |
@@ -82,6 +82,7 @@
   entry is broken (Jest can't load it); 9.17.0 pins the complete vendor 9.15.0. Jest setup gained ResizeObserver and structuredClone
   shims (jsdom gaps). Locally: lint, typecheck, format:check, test (147 passed, no warnings) and build exit 0. Negative check:
   offering every measurement type fails two tests.
+- 2026-11-14: M4a merged (`72c0cef`, PR #10); CI on `main` passed.
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
