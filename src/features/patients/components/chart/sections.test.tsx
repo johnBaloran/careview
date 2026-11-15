@@ -8,7 +8,6 @@ import {
   ConditionsSection,
   EncountersSection,
   MedicationsSection,
-  ObservationsSection,
 } from "./sections";
 
 jest.mock("next/navigation", () => ({
@@ -123,30 +122,6 @@ describe("chart sections", () => {
       "Dec 1, 2026Follow-up visitAsthmaPlanned",
     );
     expect(rows[2]).toHaveTextContent("Finished");
-  });
-
-  it("shows observation values with units", async () => {
-    mockFetchByUrl({
-      [`${base}/observations`]: {
-        body: {
-          items: [
-            {
-              id: "o1",
-              code: "heart-rate",
-              display: "Heart rate",
-              value: 72,
-              unit: "beats/min",
-              date: "2026-05-10",
-            },
-          ],
-        },
-      },
-    });
-    renderWithTheme(<ObservationsSection />);
-    const rows = within(
-      await screen.findByRole("table", { name: "Observations" }),
-    ).getAllByRole("row");
-    expect(rows[1]).toHaveTextContent("May 10, 2026Heart rate72 beats/min");
   });
 
   it("has no detectable accessibility violations", async () => {

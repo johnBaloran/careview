@@ -7,12 +7,7 @@ import { formatDate } from "../../utils/format";
 import { ChartSection } from "./ChartSection";
 
 import type { Column } from "@/components/data-display/DataTable";
-import type {
-  Condition,
-  Encounter,
-  MedicationRequest,
-  Observation,
-} from "../../types";
+import type { Condition, Encounter, MedicationRequest } from "../../types";
 
 const conditionColumns: Column<Condition>[] = [
   { header: "Condition", render: (c) => c.display },
@@ -41,12 +36,6 @@ const encounterColumns: Column<Encounter>[] = [
       />
     ),
   },
-];
-
-const observationColumns: Column<Observation>[] = [
-  { header: "Date", render: (o) => formatDate(o.date) },
-  { header: "Measurement", render: (o) => o.display },
-  { header: "Value", render: (o) => `${o.value} ${o.unit}` },
 ];
 
 const medicationColumns: Column<MedicationRequest>[] = [
@@ -78,14 +67,6 @@ export const EncountersSection = () => (
     resource="encounters"
     columns={encounterColumns}
     emptyTitle="No encounters"
-  />
-);
-export const ObservationsSection = () => (
-  <ChartSection
-    title="Observations"
-    resource="observations"
-    columns={observationColumns}
-    emptyTitle="No observations"
   />
 );
 export const MedicationsSection = () => (

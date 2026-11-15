@@ -1,3 +1,5 @@
+import v8 from "node:v8";
+
 import "@testing-library/jest-dom";
 import { toHaveNoViolations } from "jest-axe";
 
@@ -19,3 +21,19 @@ class InertIntersectionObserver {
 }
 globalThis.IntersectionObserver =
   InertIntersectionObserver as unknown as typeof IntersectionObserver;
+
+// jsdom has no ResizeObserver; charts use it to measure their container. Inert stub.
+class InertResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+globalThis.ResizeObserver =
+  InertResizeObserver as unknown as typeof ResizeObserver;
+
+// jsdom doesn't expose structuredClone (browsers and Node do); MUI X Charts' gesture handling uses
+// it. Node's v8 serializer implements the same structured-clone algorithm.
+if (typeof globalThis.structuredClone !== "function") {
+  globalThis.structuredClone = ((value: unknown) =>
+    v8.deserialize(v8.serialize(value))) as typeof structuredClone;
+}
