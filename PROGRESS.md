@@ -1,9 +1,9 @@
 # CareView: progress
 
 **Current milestone:** M3 Patient chart
-**Active task:** M3a clinical data and chart API, branch `feat/m3-chart-api`
-**Next task:** M3b chart layout, banner and section tabs
-**Last verified commit:** `bce51d6` on `main` (PR #6; CI green on main)
+**Active task:** M3b chart layout, banner and section tabs, branch `feat/m3-chart-ui`
+**Next task:** M3c chart summary
+**Last verified commit:** `c13ab8f` on `main` (PR #7; CI green on main)
 
 ## Milestones
 | Milestone | Status |
@@ -61,6 +61,14 @@
   Locally: lint, typecheck, format:check, test (114 passed) and build exit 0; build marks all six API routes dynamic (ƒ).
   Negative check: injecting Math.random into the generator fails the determinism test. One local Jest run stalled ~11 min
   (Jest's estimate); reruns take ~4 s; cause not identified.
+- 2026-11-14: M3a merged (`c13ab8f`, PR #7); CI on `main` passed.
+- 2026-11-14: M3b implemented on `feat/m3-chart-ui`: shared `useFetchJson` (usePatients now wraps it; its 6 tests still pass) with
+  keepPreviousData off by default (no wrong-patient display), chart layout (patient loaded once, not-found and error states),
+  banner, section navigation (links + aria-current), four section tabs with their own states, generic page titles (no names in
+  history). Fixed: AppShell read usePathname outside Suspense, which fails the build on dynamic routes; the nav now renders in
+  Suspense with a non-highlighted fallback. Locally: lint, typecheck, format:check, test (130 passed, no warnings) and build exit 0;
+  chart routes are partially prerendered (◐). Negative check: flipping keepPreviousData's default fails the wrong-patient test.
+  Known: unknown patient IDs show "Patient not found" in the browser but the page responds HTTP 200 (client-side fetch).
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).

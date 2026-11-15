@@ -1,15 +1,15 @@
 import {
   ageInYears,
-  formatBirthDate,
+  formatDate,
   formatPatientName,
   formatSex,
   formatStatus,
 } from "./format";
 
-describe("formatBirthDate", () => {
+describe("formatDate", () => {
   it("formats a calendar date without shifting it by time zone", () => {
-    expect(formatBirthDate("1943-10-01")).toBe("Oct 1, 1943");
-    expect(formatBirthDate("2016-12-31")).toBe("Dec 31, 2016");
+    expect(formatDate("1943-10-01")).toBe("Oct 1, 1943");
+    expect(formatDate("2016-12-31")).toBe("Dec 31, 2016");
   });
 });
 
