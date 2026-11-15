@@ -1,9 +1,9 @@
 # CareView: progress
 
-**Current milestone:** M4 Observations and polish
-**Active task:** M4b accessibility and responsive polish, branch `feat/m4-a11y-polish`
-**Next task:** M4c README and demo script
-**Last verified commit:** `72c0cef` on `main` (PR #10; CI green on main)
+**Current milestone:** M4 complete; first release ready
+**Active task:** M4c README and demo script, branch `docs/m4-readme`
+**Next task:** none in scope. Optional, needs approval: Vercel deploy (needs your account), or an M5 extension
+**Last verified commit:** `7e0239f` on `main` (PR #12; CI green on main)
 
 ## Milestones
 | Milestone | Status |
@@ -12,7 +12,7 @@
 | M1 Shell and design system | done (PRs #2, #3) |
 | M2 Patient directory | done (PRs #4–#6) |
 | M3 Patient chart | done (PRs #7–#9) |
-| M4 Observations and polish | in progress |
+| M4 Observations and polish | done (PRs #10–#13) |
 | M5 Optional extension | deferred (needs approval after M4) |
 
 ## Completed
@@ -95,6 +95,11 @@
   was 391 px wide: a visually-hidden status used `width: 1` (MUI sx reads ≤1 as 100%), the pagination bar overflowed, and table cells
   wrapped to 3 lines; (2) the chart line looked missing in a quick CLI screenshot, but CDP showed the path drawn (capture timing), so
   only its colour changed (theme teal). Fixed on `fix/m4-visual-fixes`; re-measured: every page's scrollWidth = 375 at 375 px.
+- 2026-11-15: Visual fixes merged (`7e0239f`, PR #12); CI on `main` passed.
+- 2026-11-15: M4c on `docs/m4-readme`: README (screenshots from a production build via headless Chrome, demo script, architecture,
+  decisions, testing, privacy, limitations); ARCHITECTURE updated (useFetchJson, charts pin, jest-axe). Demo claims checked in the
+  browser: `?page=2&sort=birthDate` → "21–40 of 60"; Inactive → 16 rows, all inactive; `/patients/pt-999` → "Patient not found";
+  `/no-such-page` → 404 page. Release gate (PROJECT_PLAN §6) met; Vercel deploy not done (needs your account).
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).

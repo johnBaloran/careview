@@ -15,11 +15,12 @@
 | Language | React + TypeScript (strict) | The target role; explicit component and API contracts |
 | UI | MUI (core) | Accessible enterprise components and theming without hand-building primitives |
 | Table | MUI `Table` with our own pagination/sort controls | Building server-driven paging and sorting by hand shows the React skill a grid would hide |
-| Data fetching | `fetch` + small custom Hooks with AbortController | Shows Hooks, effects, cleanup and async states; two endpoints don't need a library |
+| Data fetching | `fetch` + small custom Hooks on a shared `useFetchJson` (AbortController, derived status, opt-in `keepPreviousData`) | Shows Hooks, effects, cleanup and async states; TanStack Query reviewed at M3 and not needed (no caching need) |
 | List state | URL search params (page, pageSize, sort, status) | Shareable and survives refresh; identifying search text stays out of the URL |
 | API validation | Typed parse functions at the route boundary | A handful of params; simple and testable |
 | Data | Static synthetic fixtures in a server-only module | Deterministic tests and screenshots; no database |
-| Tests | Jest (`next/jest`) + React Testing Library + user-event + jest-dom | Common in job postings; tests user behaviour |
+| Charts | MUI X Charts, pinned to 9.17.0 | Uses the MUI theme; 9.18.0's vendor package was published without its CommonJS files |
+| Tests | Jest (`next/jest`) + React Testing Library + user-event + jest-dom + jest-axe | Common in job postings; tests user behaviour and accessibility |
 | Quality | ESLint (Next config) + Prettier; GitHub Actions CI | Consistent code; checks visible on every PR |
 | Runtime | Node 24 LTS, npm | Current LTS |
 
@@ -28,7 +29,7 @@ Deferred libraries and their adoption triggers: `docs/PRIORITIES.md` §4.
 ## 3. Request flow
 ```
 Browser: React client component
-   └─ custom Hook (usePatients / usePatient): fetch, AbortController, loading/error/retry
+   └─ custom Hook (usePatients / usePatient / useChartResource → useFetchJson): fetch, AbortController, loading/error/retry
         └─ GET /api/patients…   (Next.js Route Handler: parse + validate query, map errors)
              └─ src/server/patients/service.ts   (filter, sort, paginate in memory)
                   └─ src/server/patients/fixtures.ts   (synthetic data, import 'server-only')
