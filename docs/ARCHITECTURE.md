@@ -50,6 +50,7 @@ src/
   features/patients/                components/, hooks/, utils/, types.ts
   server/patients/                  service.ts, fixtures.ts
   test/                             render helper
+  theme.ts                          MUI theme (palette, typography, shape); 'use client'
 ```
 Folders are created when code needs them; no empty layers.
 
