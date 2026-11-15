@@ -42,6 +42,11 @@
   format:check, test (48 passed) and build exit 0. Build marks `/api/patients` dynamic (ƒ); negative check: a handler that
   ignores the request is prerendered (○). Live `next dev`: `?q=chen` → 200 with 1 patient; `?pageSize=7` → 400, no-store.
 - 2026-11-14: M2a merged (`0481f13`, PR #4); CI on `main` passed.
+- 2026-11-14: M2b implemented on `feat/m2-directory-table`: `usePatients` (AbortController, derived status, keeps previous page,
+  retry), `PatientTable` (sortable Name/DOB with aria-sort, paging, name links, row click, text status chip), `PatientDirectory`
+  (page/size/sort/status in the URL, lenient parsing), date/age formatting. Locally: lint, typecheck, format:check, test (77 passed,
+  no warnings) and build exit 0. The race test failed on a real bug first (a late response from an aborted request overwrote newer
+  data); fixed by checking the abort signal. UNVERIFIED: visual check of the table (desktop + 375 px).
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
