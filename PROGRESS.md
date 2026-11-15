@@ -1,17 +1,17 @@
 # CareView: progress
 
-**Current milestone:** M2 Patient directory
-**Active task:** M2c search and status filter, branch `feat/m2-search-filter`
-**Next task:** M3 patient chart
-**Last verified commit:** `5440490` on `main` (PR #5; CI green on main)
+**Current milestone:** M3 Patient chart
+**Active task:** M3a clinical data and chart API, branch `feat/m3-chart-api`
+**Next task:** M3b chart layout, banner and section tabs
+**Last verified commit:** `bce51d6` on `main` (PR #6; CI green on main)
 
 ## Milestones
 | Milestone | Status |
 |---|---|
 | M0 Foundation | done (PR #1) |
 | M1 Shell and design system | done (PRs #2, #3) |
-| M2 Patient directory | in progress |
-| M3 Patient chart | not started |
+| M2 Patient directory | done (PRs #4–#6) |
+| M3 Patient chart | in progress |
 | M4 Observations and polish | not started |
 | M5 Optional extension | deferred (needs approval after M4) |
 
@@ -53,6 +53,8 @@
   All/Active/Inactive status filter in the URL, "No patients match" with "Clear search and filters", announced result count.
   Locally: lint, typecheck, format:check, test (89 passed, no warnings) and build exit 0. Negative check: without the debounce,
   typing "chen" sends 4 requests and the test fails.
+- 2026-11-14: M2c merged (`bce51d6`, PR #6); CI on `main` passed. M2 complete.
+- 2026-11-14: M3 split: M3a clinical data + API, M3b chart layout/banner/tabs, M3c summary.
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
