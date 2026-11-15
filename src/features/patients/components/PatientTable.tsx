@@ -1,7 +1,6 @@
 "use client";
 
 import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
 import LinearProgress from "@mui/material/LinearProgress";
 import MuiLink from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
@@ -14,6 +13,8 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import NextLink from "next/link";
+
+import { StatusChip } from "@/components/data-display/StatusChip";
 
 import {
   PAGE_SIZES,
@@ -138,11 +139,9 @@ export function PatientTable(props: PatientTableProps) {
                 </TableCell>
                 <TableCell>{formatSex(patient.sex)}</TableCell>
                 <TableCell>
-                  <Chip
-                    size="small"
-                    variant="outlined"
-                    color={patient.status === "active" ? "success" : "default"}
+                  <StatusChip
                     label={formatStatus(patient.status)}
+                    tone={patient.status === "active" ? "positive" : "neutral"}
                   />
                 </TableCell>
               </TableRow>

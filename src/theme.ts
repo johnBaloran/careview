@@ -10,6 +10,8 @@ export const theme = createTheme({
   palette: {
     mode: "light",
     primary: { main: "#0F6E78", contrastText: "#FFFFFF" },
+    // MUI's default info (#0288d1) is only 3.86:1 on white, below AA for chip text.
+    info: { main: "#0B61A4" },
     background: { default: "#F5F7F8", paper: "#FFFFFF" },
     text: { primary: "#1B2328", secondary: "#4A5862" },
     divider: "#DDE3E7",

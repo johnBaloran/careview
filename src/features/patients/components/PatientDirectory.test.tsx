@@ -322,3 +322,36 @@ describe("PatientDirectory search and status filter", () => {
     expect(screen.getByRole("status")).toHaveTextContent("45 patients");
   });
 });
+
+describe("PatientDirectory keyboard use", () => {
+  it("reaches search, the status filter, sort controls and the first patient link with Tab", async () => {
+    const { user } = renderWithTheme(<PatientDirectory />);
+    await latest().respond(twoPatients);
+
+    await user.tab();
+    expect(
+      screen.getByRole("searchbox", { name: "Search by name or MRN" }),
+    ).toHaveFocus();
+    // The status filter is one Tab stop (roving tabindex); arrow keys move within it.
+    await user.tab();
+    expect(screen.getByRole("button", { name: "All" })).toHaveFocus();
+    await user.keyboard("{ArrowRight}");
+    expect(screen.getByRole("button", { name: "Active" })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("button", { name: /Name/ })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Date of birth" })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("link", { name: "Chen, Maya" })).toHaveFocus();
+  });
+
+  it("sorts from the keyboard", async () => {
+    const { user } = renderWithTheme(<PatientDirectory />);
+    await latest().respond(twoPatients);
+    screen.getByRole("button", { name: "Date of birth" }).focus();
+    await user.keyboard("{Enter}");
+    expect(mockReplace).toHaveBeenCalledWith("/patients?sort=birthDate", {
+      scroll: false,
+    });
+  });
+});
