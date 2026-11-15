@@ -1,4 +1,4 @@
-import { act, screen, within } from "@testing-library/react";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 import { renderWithTheme } from "@/test/render";
@@ -227,5 +227,98 @@ describe("PatientDirectory", () => {
     const { container } = renderWithTheme(<PatientDirectory />);
     await latest().respond(twoPatients);
     expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
+describe("PatientDirectory search and status filter", () => {
+  const searchBox = () =>
+    screen.getByRole("searchbox", { name: "Search by name or MRN" });
+  const requestsWithQuery = () => pending.filter((p) => p.url.includes("q="));
+
+  it("searches once the user pauses typing, not on every keystroke", async () => {
+    const { user } = renderWithTheme(<PatientDirectory />);
+    await latest().respond(twoPatients);
+
+    await user.type(searchBox(), "chen");
+    await waitFor(() => expect(requestsWithQuery()).toHaveLength(1));
+    expect(requestsWithQuery()[0]!.url).toBe(
+      "/api/patients?q=chen&page=1&pageSize=20&sort=name",
+    );
+  });
+
+  it("never puts the search text in the page URL", async () => {
+    mockQuery = "page=2";
+    const { user } = renderWithTheme(<PatientDirectory />);
+    await latest().respond({ ...twoPatients, page: 2 });
+
+    await user.type(searchBox(), "SYN-100001");
+    await waitFor(() => expect(requestsWithQuery()).toHaveLength(1));
+    // Typing resets to page 1, and the URL carries nothing identifying.
+    expect(mockReplace).toHaveBeenCalledWith("/patients", { scroll: false });
+    for (const [url] of mockReplace.mock.calls) {
+      expect(url).not.toMatch(/SYN|q=/);
+    }
+  });
+
+  it("clears the search with the clear button", async () => {
+    const { user } = renderWithTheme(<PatientDirectory />);
+    await latest().respond(twoPatients);
+    await user.type(searchBox(), "chen");
+    await waitFor(() => expect(requestsWithQuery()).toHaveLength(1));
+
+    await user.click(screen.getByRole("button", { name: "Clear search" }));
+    expect(searchBox()).toHaveValue("");
+    await waitFor(() =>
+      expect(latest().url).toBe("/api/patients?page=1&pageSize=20&sort=name"),
+    );
+  });
+
+  it("filters by status through the URL", async () => {
+    mockQuery = "page=3";
+    const { user } = renderWithTheme(<PatientDirectory />);
+    await latest().respond({ ...twoPatients, page: 3 });
+    expect(screen.getByRole("button", { name: "All" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+
+    await user.click(screen.getByRole("button", { name: "Inactive" }));
+    expect(mockReplace).toHaveBeenCalledWith("/patients?status=inactive", {
+      scroll: false,
+    });
+  });
+
+  it("shows the selected status from the URL", async () => {
+    mockQuery = "status=active";
+    renderWithTheme(<PatientDirectory />);
+    await latest().respond(twoPatients);
+    expect(screen.getByRole("button", { name: "Active" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+  });
+
+  it("offers to clear search and filters when nothing matches", async () => {
+    mockQuery = "status=inactive";
+    const { user } = renderWithTheme(<PatientDirectory />);
+    await latest().respond(twoPatients);
+    await user.type(searchBox(), "zzzz");
+    await waitFor(() => expect(requestsWithQuery()).toHaveLength(1));
+    await latest().respond(listOf([]));
+
+    expect(screen.getByRole("status")).toHaveTextContent("No patients match");
+    await user.click(
+      screen.getByRole("button", { name: "Clear search and filters" }),
+    );
+    expect(searchBox()).toHaveValue("");
+    expect(mockReplace).toHaveBeenLastCalledWith("/patients", {
+      scroll: false,
+    });
+  });
+
+  it("announces the number of matching patients", async () => {
+    renderWithTheme(<PatientDirectory />);
+    await latest().respond(twoPatients);
+    expect(screen.getByRole("status")).toHaveTextContent("45 patients");
   });
 });

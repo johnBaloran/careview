@@ -1,12 +1,15 @@
 "use client";
 
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 import { EmptyState } from "@/components/feedback/EmptyState";
 import { ErrorState } from "@/components/feedback/ErrorState";
 import { LoadingState } from "@/components/feedback/LoadingState";
 
+import { useDebouncedValue } from "../hooks/useDebouncedValue";
 import { usePatients } from "../hooks/usePatients";
 import {
   DEFAULT_PAGE_SIZE,
@@ -19,19 +22,34 @@ import {
   type DirectoryParams,
 } from "../utils/directoryParams";
 
+import { PatientSearchForm, type StatusFilter } from "./PatientSearchForm";
 import { PatientTable } from "./PatientTable";
 
-// Owns the directory's list state. Page, page size, sort and status live in the URL (shareable,
-// survive refresh); the fetched data lives only in usePatients.
+const visuallyHidden = {
+  position: "absolute",
+  width: 1,
+  height: 1,
+  overflow: "hidden",
+  clip: "rect(0 0 0 0)",
+  whiteSpace: "nowrap",
+} as const;
+
+// Owns the directory's list state:
+// - page, page size, sort and status live in the URL (shareable, survive refresh);
+// - search text lives here only, because a name or MRN must never appear in a URL;
+// - fetched data lives only in usePatients.
 export function PatientDirectory() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const params = readDirectoryParams(searchParams);
-  const { status, data, retry } = usePatients(params);
+  const urlParams = readDirectoryParams(searchParams);
+
+  const [searchText, setSearchText] = useState("");
+  const q = useDebouncedValue(searchText.trim(), 300) || undefined;
+  const { status, data, retry } = usePatients({ ...urlParams, q });
 
   const updateUrl = (changes: Partial<DirectoryParams>) => {
-    const next = { ...params, ...changes };
+    const next = { ...urlParams, ...changes };
     const query = new URLSearchParams();
     // Defaults stay out of the URL so it remains short and readable.
     if (next.status) query.set("status", next.status);
@@ -45,26 +63,46 @@ export function PatientDirectory() {
     });
   };
 
+  const handleQueryChange = (value: string) => {
+    setSearchText(value);
+    // A new search starts from the first page.
+    if (urlParams.page > 1) updateUrl({ page: 1 });
+  };
+
+  const clearSearchAndFilters = () => {
+    setSearchText("");
+    updateUrl({ status: undefined, page: 1 });
+  };
+
+  const isFiltered = Boolean(q || urlParams.status);
+
+  let content;
   if (status === "error") {
-    return (
+    content = (
       <ErrorState
         title="Couldn't load patients"
         message="Check your connection and try again."
         onRetry={retry}
       />
     );
-  }
-
-  if (!data) {
-    return <LoadingState label="Loading patients…" />;
-  }
-
-  if (data.total === 0) {
-    return <EmptyState title="No patients found" />;
-  }
-
-  if (data.items.length === 0) {
-    return (
+  } else if (!data) {
+    content = <LoadingState label="Loading patients…" />;
+  } else if (data.total === 0) {
+    content = isFiltered ? (
+      <EmptyState
+        title="No patients match"
+        description="Try a different name or MRN, or clear the search and filters."
+        action={
+          <Button onClick={clearSearchAndFilters}>
+            Clear search and filters
+          </Button>
+        }
+      />
+    ) : (
+      <EmptyState title="No patients found" />
+    );
+  } else if (data.items.length === 0) {
+    content = (
       <EmptyState
         title="No patients on this page"
         description="The list is shorter than this page number."
@@ -75,20 +113,41 @@ export function PatientDirectory() {
         }
       />
     );
+  } else {
+    content = (
+      <>
+        {status === "success" ? (
+          <Box role="status" sx={visuallyHidden}>
+            {data.total === 1 ? "1 patient" : `${data.total} patients`}
+          </Box>
+        ) : null}
+        <PatientTable
+          rows={data.items}
+          total={data.total}
+          page={data.page}
+          pageSize={data.pageSize as PageSize}
+          sort={urlParams.sort}
+          refreshing={status === "loading"}
+          onSortChange={(sort: PatientSort) => updateUrl({ sort, page: 1 })}
+          onPageChange={(page) => updateUrl({ page })}
+          onPageSizeChange={(pageSize) => updateUrl({ pageSize, page: 1 })}
+          onOpenPatient={(id) => router.push(`/patients/${id}`)}
+        />
+      </>
+    );
   }
 
   return (
-    <PatientTable
-      rows={data.items}
-      total={data.total}
-      page={data.page}
-      pageSize={data.pageSize as PageSize}
-      sort={params.sort}
-      refreshing={status === "loading"}
-      onSortChange={(sort: PatientSort) => updateUrl({ sort, page: 1 })}
-      onPageChange={(page) => updateUrl({ page })}
-      onPageSizeChange={(pageSize) => updateUrl({ pageSize, page: 1 })}
-      onOpenPatient={(id) => router.push(`/patients/${id}`)}
-    />
+    <>
+      <PatientSearchForm
+        query={searchText}
+        onQueryChange={handleQueryChange}
+        status={urlParams.status ?? "all"}
+        onStatusChange={(value: StatusFilter) =>
+          updateUrl({ status: value === "all" ? undefined : value, page: 1 })
+        }
+      />
+      {content}
+    </>
   );
 }
