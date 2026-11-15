@@ -75,7 +75,13 @@
   onto them; its 12 tests still pass). Locally: lint, typecheck, format:check, test (138 passed, no warnings) and build exit 0.
   Negative check: removing the active-only filter fails its test. One failing card leaves the others working (tested).
 - 2026-11-14: M3c merged (`16f544d`, PR #9); CI on `main` passed. M3 complete. TanStack Query not adopted (no caching need).
-- 2026-11-14: M4 plan: M4a observation trend (MUI X Charts 9.18, per PRIORITIES §4), M4b a11y/responsive polish, M4c README + demo.
+- 2026-11-14: M4 plan: M4a observation trend (MUI X Charts, per PRIORITIES §4), M4b a11y/responsive polish, M4c README + demo.
+- 2026-11-14: M4a implemented on `feat/m4-observation-trend`: Observations tab with a measurement selector (only types the patient
+  has), Chart/Table toggle, an accessible one-sentence chart summary, and the full list; trend helpers unit-tested.
+  `@mui/x-charts` pinned to exactly 9.17.0: the published `@mui/x-charts-vendor@9.18.0` ships 80 of its 354 files and its CommonJS
+  entry is broken (Jest can't load it); 9.17.0 pins the complete vendor 9.15.0. Jest setup gained ResizeObserver and structuredClone
+  shims (jsdom gaps). Locally: lint, typecheck, format:check, test (147 passed, no warnings) and build exit 0. Negative check:
+  offering every measurement type fails two tests.
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
