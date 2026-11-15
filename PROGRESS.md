@@ -1,9 +1,9 @@
 # CareView: progress
 
 **Current milestone:** M2 Patient directory
-**Active task:** M2a patient data and API, branch `feat/m2-patient-api`
-**Next task:** M2b directory table (URL-driven paging, sorting, request states)
-**Last verified commit:** `754007b` on `main` (PR #3; CI green on main)
+**Active task:** M2b directory table, branch `feat/m2-directory-table`
+**Next task:** M2c search and status filter
+**Last verified commit:** `0481f13` on `main` (PR #4; CI green on main)
 
 ## Milestones
 | Milestone | Status |
@@ -41,6 +41,12 @@
   400 error envelope (never echoes `q`) and `Cache-Control: no-store`; "Synthetic data" badge. Locally: lint, typecheck,
   format:check, test (48 passed) and build exit 0. Build marks `/api/patients` dynamic (ƒ); negative check: a handler that
   ignores the request is prerendered (○). Live `next dev`: `?q=chen` → 200 with 1 patient; `?pageSize=7` → 400, no-store.
+- 2026-11-14: M2a merged (`0481f13`, PR #4); CI on `main` passed.
+- 2026-11-14: M2b implemented on `feat/m2-directory-table`: `usePatients` (AbortController, derived status, keeps previous page,
+  retry), `PatientTable` (sortable Name/DOB with aria-sort, paging, name links, row click, text status chip), `PatientDirectory`
+  (page/size/sort/status in the URL, lenient parsing), date/age formatting. Locally: lint, typecheck, format:check, test (77 passed,
+  no warnings) and build exit 0. The race test failed on a real bug first (a late response from an aborted request overwrote newer
+  data); fixed by checking the abort signal. UNVERIFIED: visual check of the table (desktop + 375 px).
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
