@@ -70,6 +70,10 @@
   chart routes are partially prerendered (◐). Negative check: flipping keepPreviousData's default fails the wrong-patient test.
   Known: unknown patient IDs show "Patient not found" in the browser but the page responds HTTP 200 (client-side fetch).
 - 2026-11-14: M3b merged (`26ed6ab`, PR #8); CI on `main` passed.
+- 2026-11-14: M3c implemented on `feat/m3-chart-summary`: Summary tab with three independent cards (active conditions, upcoming +
+  last three encounters, latest vital per type) and "View all" links; shared SectionCard and ResourceContent (ChartSection refactored
+  onto them; its 12 tests still pass). Locally: lint, typecheck, format:check, test (138 passed, no warnings) and build exit 0.
+  Negative check: removing the active-only filter fails its test. One failing card leaves the others working (tested).
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
