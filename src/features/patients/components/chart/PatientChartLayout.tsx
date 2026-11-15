@@ -1,6 +1,7 @@
 "use client";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import NextLink from "next/link";
 import { useParams } from "next/navigation";
@@ -17,7 +18,7 @@ import { PatientBanner } from "./PatientBanner";
 import type { ReactNode } from "react";
 
 // Wraps every chart tab: loads the patient once (the layout persists across tab changes) and
-// renders the sections only once the patient is known.
+// shows the sections only once the patient is known.
 export function PatientChartLayout({ children }: { children: ReactNode }) {
   const { patientId } = useParams<{ patientId: string }>();
   const { status, data: patient, httpStatus, retry } = usePatient(patientId);
@@ -33,8 +34,9 @@ export function PatientChartLayout({ children }: { children: ReactNode }) {
     </Button>
   );
 
+  let header;
   if (status === "error" && httpStatus === 404) {
-    return (
+    header = (
       <EmptyState
         title="Patient not found"
         description="This patient doesn't exist or is no longer available."
@@ -45,10 +47,8 @@ export function PatientChartLayout({ children }: { children: ReactNode }) {
         }
       />
     );
-  }
-
-  if (status === "error") {
-    return (
+  } else if (status === "error") {
+    header = (
       <>
         {backLink}
         <ErrorState
@@ -58,18 +58,25 @@ export function PatientChartLayout({ children }: { children: ReactNode }) {
         />
       </>
     );
-  }
-
-  if (!patient) {
-    return <LoadingState label="Loading patient…" />;
+  } else if (!patient) {
+    header = <LoadingState label="Loading patient…" />;
+  } else {
+    header = (
+      <>
+        {backLink}
+        <PatientBanner patient={patient} />
+        <ChartSectionNav patientId={patient.id} />
+      </>
+    );
   }
 
   return (
     <>
-      {backLink}
-      <PatientBanner patient={patient} />
-      <ChartSectionNav patientId={patient.id} />
-      {children}
+      {header}
+      {/* The section is always rendered, so it loads in parallel with the patient and Next.js can
+          validate the route for instant navigation. It stays hidden (not shown, not announced)
+          until the banner confirms whose chart this is. */}
+      <Box hidden={!patient}>{children}</Box>
     </>
   );
 }

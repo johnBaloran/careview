@@ -100,6 +100,11 @@
   decisions, testing, privacy, limitations); ARCHITECTURE updated (useFetchJson, charts pin, jest-axe). Demo claims checked in the
   browser: `?page=2&sort=birthDate` → "21–40 of 60"; Inactive → 16 rows, all inactive; `/patients/pt-999` → "Patient not found";
   `/no-such-page` → 404 page. Release gate (PROJECT_PLAN §6) met; Vercel deploy not done (needs your account).
+- 2026-11-15: M4c merged (`27f2088`, PR #13); CI on `main` passed.
+- 2026-11-15: Human reported Next 16's dev overlay "could not validate … instant navigation … dropped from rendering" on chart
+  routes. Cause: PatientChartLayout omitted `{children}` until the patient loaded (also a request waterfall). Fix on
+  `fix/chart-instant-navigation`: sections always render, hidden until the patient is confirmed, so they load in parallel. Checked via
+  CDP on `next dev`: overlay visible text clean on all chart routes; with the old code it shows the warning. Tests: 159 passed.
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
