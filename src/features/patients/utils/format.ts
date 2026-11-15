@@ -16,9 +16,9 @@ function parseDate(isoDate: string): {
   return { year: year ?? NaN, month: month ?? NaN, day: day ?? NaN };
 }
 
-/** "1943-10-01" → "Oct 1, 1943". A birth date is a calendar date, so it's formatted in UTC
- * and can't shift a day in any viewer's time zone. */
-export function formatBirthDate(isoDate: string): string {
+/** "1943-10-01" → "Oct 1, 1943". Clinical dates here are calendar dates, so they're formatted in
+ * UTC and can't shift a day in any viewer's time zone. */
+export function formatDate(isoDate: string): string {
   return dateFormat.format(new Date(`${isoDate}T00:00:00Z`));
 }
 

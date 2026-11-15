@@ -23,7 +23,7 @@ import {
 } from "../types";
 import {
   ageInYears,
-  formatBirthDate,
+  formatDate,
   formatPatientName,
   formatSex,
   formatStatus,
@@ -133,7 +133,7 @@ export function PatientTable(props: PatientTableProps) {
                   {patient.mrn}
                 </TableCell>
                 <TableCell>
-                  {formatBirthDate(patient.birthDate)} (
+                  {formatDate(patient.birthDate)} (
                   {ageInYears(patient.birthDate, today)} y)
                 </TableCell>
                 <TableCell>{formatSex(patient.sex)}</TableCell>

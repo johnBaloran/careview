@@ -16,7 +16,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { Suspense, useState, type ReactNode } from "react";
 
 const DRAWER_WIDTH = 232;
 
@@ -24,14 +24,16 @@ const NAV_ITEMS = [
   { href: "/patients", label: "Patients", icon: <PeopleAltOutlinedIcon /> },
 ] as const;
 
-function NavList({ onNavigate }: { onNavigate?: () => void }) {
-  const pathname = usePathname();
+type NavListProps = { pathname: string | null; onNavigate?: () => void };
+
+function NavList({ pathname, onNavigate }: NavListProps) {
   return (
     <Box component="nav" aria-label="Main navigation">
       <List>
         {NAV_ITEMS.map((item) => {
           const active =
-            pathname === item.href || pathname.startsWith(`${item.href}/`);
+            pathname !== null &&
+            (pathname === item.href || pathname.startsWith(`${item.href}/`));
           return (
             <ListItem key={item.href} disablePadding>
               <ListItemButton
@@ -50,6 +52,21 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
         })}
       </List>
     </Box>
+  );
+}
+
+function CurrentNavList({ onNavigate }: { onNavigate?: () => void }) {
+  return <NavList pathname={usePathname()} onNavigate={onNavigate} />;
+}
+
+// The pathname is request-time data on dynamic routes (e.g. /patients/[patientId]), so only the
+// nav reads it, inside Suspense. The fallback is the same nav without the active highlight, so the
+// shell still prerenders instantly.
+function Navigation({ onNavigate }: { onNavigate?: () => void }) {
+  return (
+    <Suspense fallback={<NavList pathname={null} onNavigate={onNavigate} />}>
+      <CurrentNavList onNavigate={onNavigate} />
+    </Suspense>
   );
 }
 
@@ -128,7 +145,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           }}
         >
           <Toolbar />
-          <NavList onNavigate={closeMobile} />
+          <Navigation onNavigate={closeMobile} />
         </Drawer>
         <Drawer
           variant="permanent"
@@ -141,7 +158,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           }}
         >
           <Toolbar />
-          <NavList />
+          <Navigation />
         </Drawer>
       </Box>
 
