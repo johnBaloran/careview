@@ -30,6 +30,9 @@
 - 2026-11-14: M1b implemented on `feat/m1-feedback-components`: PageHeader, LoadingState (polite status), EmptyState (status + optional action),
   ErrorState (alert + optional retry); patients page uses PageHeader. Locally: lint, typecheck, format:check, test (21 passed, no warnings)
   and build exit 0; removing the retry handler fails its test (negative check).
+  `next dev` auto-generated AGENTS.md (Next 16 does this under AI agents) and it was committed by mistake; removed, and
+  `agentRules: false` set in next.config.ts (human decision). Restarted `next dev` did not recreate it.
+- Open for M2 investigation: next.config.ts has `cacheComponents: true` and `partialPrefetching: true` (template defaults, unreviewed in M0).
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
