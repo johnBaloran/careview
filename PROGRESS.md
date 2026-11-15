@@ -1,7 +1,7 @@
 # CareView: progress
 
 **Current milestone:** M0 Foundation, in review
-**Active task:** M0 foundation, branch `chore/m0-foundation` (PR pending CI)
+**Active task:** M0 foundation, PR #1 (CI green, awaiting merge)
 **Next task:** M1: application shell and design system (starts with an investigation)
 **Last verified commit:** see the M0 PR
 
@@ -19,7 +19,7 @@
 - 2026-11-14: stack, architecture and scope approved; project documents created (`fc6494c` on `main`).
 - 2026-11-14: M0 implemented on `chore/m0-foundation`: Next 16.4.6, React 19.3.1, TS 5.9 strict + noUncheckedIndexedAccess,
   ESLint 9 (Next config) + Prettier, Jest 30 + RTL, CI workflow. Locally: lint, typecheck, format:check, test (1 passed) and build all exit 0;
-  the test fails when the heading is broken (negative check). CI: pending.
+  the test fails when the heading is broken (negative check). CI on PR #1: all steps passed (run 43656963901).
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
