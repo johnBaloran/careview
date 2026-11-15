@@ -1,9 +1,9 @@
 # CareView: progress
 
 **Current milestone:** M1 Shell and design system
-**Active task:** M1a theme and shell, branch `feat/m1-theme-shell`
-**Next task:** M1b PageHeader and feedback components
-**Last verified commit:** `ae65b2c` on `main` (PR #1; CI green on main)
+**Active task:** M1b PageHeader and feedback components, branch `feat/m1-feedback-components`
+**Next task:** M2 patient directory (starts with an investigation)
+**Last verified commit:** `a83e657` on `main` (PR #2; CI green on main)
 
 ## Milestones
 | Milestone | Status |
@@ -26,7 +26,13 @@
   (permanent nav ≥ md, drawer below; skip link; aria-current), `/` → `/patients` redirect, patients placeholder, jest-axe.
   Locally: lint, typecheck, format:check, test (8 passed, no warnings) and build exit 0; `next start`: `/` → 307 `/patients`,
   landmarks/skip link/aria-current present in HTML. jest-axe caught a real bug (links not in `<li>`), fixed.
-  UNVERIFIED: visual check in a browser (desktop + 375 px).
+  Visual check passed (human, 2026-11-14): desktop nav, 375 px drawer, skip link. Merged as `a83e657` (PR #2); CI on `main` passed.
+- 2026-11-14: M1b implemented on `feat/m1-feedback-components`: PageHeader, LoadingState (polite status), EmptyState (status + optional action),
+  ErrorState (alert + optional retry); patients page uses PageHeader. Locally: lint, typecheck, format:check, test (21 passed, no warnings)
+  and build exit 0; removing the retry handler fails its test (negative check).
+  `next dev` auto-generated AGENTS.md (Next 16 does this under AI agents) and it was committed by mistake; removed, and
+  `agentRules: false` set in next.config.ts (human decision). Restarted `next dev` did not recreate it.
+- Open for M2 investigation: next.config.ts has `cacheComponents: true` and `partialPrefetching: true` (template defaults, unreviewed in M0).
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).

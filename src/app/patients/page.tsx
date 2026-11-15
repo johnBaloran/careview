@@ -1,4 +1,4 @@
-import Typography from "@mui/material/Typography";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 import type { Metadata } from "next";
 
@@ -6,9 +6,5 @@ export const metadata: Metadata = { title: "Patients" };
 
 // Placeholder until the patient directory (M2).
 export default function PatientsPage() {
-  return (
-    <Typography variant="h1" gutterBottom>
-      Patients
-    </Typography>
-  );
+  return <PageHeader title="Patients" />;
 }
