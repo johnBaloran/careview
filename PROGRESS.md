@@ -1,16 +1,16 @@
 # CareView: progress
 
-**Current milestone:** M1 Shell and design system
-**Active task:** M1b PageHeader and feedback components, branch `feat/m1-feedback-components`
-**Next task:** M2 patient directory (starts with an investigation)
-**Last verified commit:** `a83e657` on `main` (PR #2; CI green on main)
+**Current milestone:** M2 Patient directory
+**Active task:** M2a patient data and API, branch `feat/m2-patient-api`
+**Next task:** M2b directory table (URL-driven paging, sorting, request states)
+**Last verified commit:** `754007b` on `main` (PR #3; CI green on main)
 
 ## Milestones
 | Milestone | Status |
 |---|---|
 | M0 Foundation | done (PR #1) |
-| M1 Shell and design system | in progress |
-| M2 Patient directory | not started |
+| M1 Shell and design system | done (PRs #2, #3) |
+| M2 Patient directory | in progress |
 | M3 Patient chart | not started |
 | M4 Observations and polish | not started |
 | M5 Optional extension | deferred (needs approval after M4) |
@@ -32,7 +32,10 @@
   and build exit 0; removing the retry handler fails its test (negative check).
   `next dev` auto-generated AGENTS.md (Next 16 does this under AI agents) and it was committed by mistake; removed, and
   `agentRules: false` set in next.config.ts (human decision). Restarted `next dev` did not recreate it.
-- Open for M2 investigation: next.config.ts has `cacheComponents: true` and `partialPrefetching: true` (template defaults, unreviewed in M0).
+- 2026-11-14: M1b merged (`754007b`, PR #3); CI on `main` passed. M1 complete.
+- 2026-11-14: M2 approved: split M2a (data + API), M2b (table, URL state), M2c (search + filter). Keep `cacheComponents` and
+  `partialPrefetching` (Next docs: both become the default in the next major). Names: plausible fictional names, `SYN-` MRNs,
+  "Synthetic data" badge in the top bar.
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
