@@ -1,9 +1,9 @@
 # CareView: progress
 
 **Current milestone:** M1 Shell and design system
-**Active task:** M1a theme and shell, branch `feat/m1-theme-shell`
-**Next task:** M1b PageHeader and feedback components
-**Last verified commit:** `ae65b2c` on `main` (PR #1; CI green on main)
+**Active task:** M1b PageHeader and feedback components, branch `feat/m1-feedback-components`
+**Next task:** M2 patient directory (starts with an investigation)
+**Last verified commit:** `a83e657` on `main` (PR #2; CI green on main)
 
 ## Milestones
 | Milestone | Status |
@@ -26,7 +26,7 @@
   (permanent nav ≥ md, drawer below; skip link; aria-current), `/` → `/patients` redirect, patients placeholder, jest-axe.
   Locally: lint, typecheck, format:check, test (8 passed, no warnings) and build exit 0; `next start`: `/` → 307 `/patients`,
   landmarks/skip link/aria-current present in HTML. jest-axe caught a real bug (links not in `<li>`), fixed.
-  UNVERIFIED: visual check in a browser (desktop + 375 px).
+  Visual check passed (human, 2026-11-14): desktop nav, 375 px drawer, skip link. Merged as `a83e657` (PR #2); CI on `main` passed.
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
