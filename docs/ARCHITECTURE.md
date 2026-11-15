@@ -84,7 +84,8 @@ No global store. Context is used only for genuinely shared, distant state, with 
 
 ## 8. Data
 FHIR-*inspired* DTOs (Patient, Condition, Encounter, Observation, MedicationRequest fields a clinician would see),
-not full FHIR resources. About 60 fictional patients with obviously synthetic names, deterministic and committed.
+not full FHIR resources. About 60 fictional patients with plausible but invented names, clearly synthetic MRNs
+(`SYN-100001`…) and a "Synthetic data" badge in the top bar; deterministic and committed.
 
 ## 9. Testing
 | Layer | What |

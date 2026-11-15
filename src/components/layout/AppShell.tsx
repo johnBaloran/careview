@@ -4,6 +4,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -107,6 +108,12 @@ export function AppShell({ children }: { children: ReactNode }) {
           >
             CareView
           </Typography>
+          <Chip
+            label="Synthetic data"
+            size="small"
+            variant="outlined"
+            sx={{ ml: "auto" }}
+          />
         </Toolbar>
       </AppBar>
 
