@@ -1,9 +1,9 @@
 # CareView: progress
 
-**Current milestone:** M3 Patient chart
-**Active task:** M3c chart summary, branch `feat/m3-chart-summary`
-**Next task:** M4 observation trend and polish
-**Last verified commit:** `26ed6ab` on `main` (PR #8; CI green on main)
+**Current milestone:** M4 Observations and polish
+**Active task:** M4a observation trend, branch `feat/m4-observation-trend`
+**Next task:** M4b accessibility and responsive polish
+**Last verified commit:** `16f544d` on `main` (PR #9; CI green on main)
 
 ## Milestones
 | Milestone | Status |
@@ -11,8 +11,8 @@
 | M0 Foundation | done (PR #1) |
 | M1 Shell and design system | done (PRs #2, #3) |
 | M2 Patient directory | done (PRs #4–#6) |
-| M3 Patient chart | in progress |
-| M4 Observations and polish | not started |
+| M3 Patient chart | done (PRs #7–#9) |
+| M4 Observations and polish | in progress |
 | M5 Optional extension | deferred (needs approval after M4) |
 
 ## Completed
@@ -74,6 +74,8 @@
   last three encounters, latest vital per type) and "View all" links; shared SectionCard and ResourceContent (ChartSection refactored
   onto them; its 12 tests still pass). Locally: lint, typecheck, format:check, test (138 passed, no warnings) and build exit 0.
   Negative check: removing the active-only filter fails its test. One failing card leaves the others working (tested).
+- 2026-11-14: M3c merged (`16f544d`, PR #9); CI on `main` passed. M3 complete. TanStack Query not adopted (no caching need).
+- 2026-11-14: M4 plan: M4a observation trend (MUI X Charts 9.18, per PRIORITIES §4), M4b a11y/responsive polish, M4c README + demo.
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
