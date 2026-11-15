@@ -36,6 +36,11 @@
 - 2026-11-14: M2 approved: split M2a (data + API), M2b (table, URL state), M2c (search + filter). Keep `cacheComponents` and
   `partialPrefetching` (Next docs: both become the default in the next major). Names: plausible fictional names, `SYN-` MRNs,
   "Synthetic data" badge in the top bar.
+- 2026-11-14: M2a implemented on `feat/m2-patient-api`: 60 synthetic patients (fixed seed, committed), `listPatients` service
+  (search name/MRN, status filter, name/birth-date sort with stable tie-break, paging), `GET /api/patients` with validated params,
+  400 error envelope (never echoes `q`) and `Cache-Control: no-store`; "Synthetic data" badge. Locally: lint, typecheck,
+  format:check, test (48 passed) and build exit 0. Build marks `/api/patients` dynamic (ƒ); negative check: a handler that
+  ignores the request is prerendered (○). Live `next dev`: `?q=chen` → 200 with 1 patient; `?pageSize=7` → 400, no-store.
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).

@@ -32,6 +32,11 @@ describe("AppShell", () => {
     );
   });
 
+  it("labels the data as synthetic in the top bar", () => {
+    renderShell();
+    expect(screen.getByRole("banner")).toHaveTextContent("Synthetic data");
+  });
+
   it("offers a skip link as the first focusable element, targeting main content", async () => {
     const { user } = renderShell();
     await user.tab();
