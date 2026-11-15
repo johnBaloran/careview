@@ -52,3 +52,51 @@ export type ApiErrorCode = "BAD_REQUEST" | "NOT_FOUND" | "INTERNAL";
 export type ApiErrorResponse = {
   error: { code: ApiErrorCode; message: string };
 };
+
+// --- Patient chart (FHIR-inspired, simplified) ---
+
+export type Condition = {
+  id: string;
+  display: string;
+  clinicalStatus: "active" | "resolved";
+  /** YYYY-MM-DD */
+  onsetDate: string;
+};
+
+export type Encounter = {
+  id: string;
+  type: string;
+  status: "planned" | "finished";
+  /** YYYY-MM-DD */
+  date: string;
+  reason: string;
+};
+
+export const OBSERVATION_CODES = [
+  "heart-rate",
+  "pain-score",
+  "body-weight",
+] as const;
+export type ObservationCode = (typeof OBSERVATION_CODES)[number];
+
+export type Observation = {
+  id: string;
+  code: ObservationCode;
+  display: string;
+  value: number;
+  unit: string;
+  /** YYYY-MM-DD */
+  date: string;
+};
+
+export type MedicationRequest = {
+  id: string;
+  medication: string;
+  dosage: string;
+  status: "active" | "stopped";
+  /** YYYY-MM-DD */
+  authoredOn: string;
+};
+
+/** Envelope for chart sub-resources, e.g. GET /api/patients/{id}/conditions. */
+export type ListResponse<T> = { items: T[] };

@@ -55,6 +55,12 @@
   typing "chen" sends 4 requests and the test fails.
 - 2026-11-14: M2c merged (`bce51d6`, PR #6); CI on `main` passed. M2 complete.
 - 2026-11-14: M3 split: M3a clinical data + API, M3b chart layout/banner/tabs, M3c summary.
+- 2026-11-14: M3a implemented on `feat/m3-chart-api`: seeded clinical records per patient (conditions, encounters, observations:
+  heart rate/pain/weight at finished visits, medications tied to conditions), chart service, `GET /api/patients/{id}` and
+  `/{id}/conditions|encounters|observations|medications` (404 envelope, no-store), shared `server/http.ts` (list route now uses it).
+  Locally: lint, typecheck, format:check, test (114 passed) and build exit 0; build marks all six API routes dynamic (ƒ).
+  Negative check: injecting Math.random into the generator fails the determinism test. One local Jest run stalled ~11 min
+  (Jest's estimate); reruns take ~4 s; cause not identified.
 
 ## Blockers and decisions
 - None. GitHub repo `johnBaloran/careview` created; `careview-app` deleted (2026-11-14).
