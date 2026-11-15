@@ -58,7 +58,18 @@ describe("PatientChartLayout", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("SYN-100001")).toBeInTheDocument();
     expect(screen.getByText("Oct 1, 1943 (83 y)")).toBeInTheDocument();
+    expect(screen.getByText("section content")).toBeVisible();
+  });
+
+  it("mounts the section while the patient loads (parallel requests) but keeps it hidden", async () => {
+    mockFetchByUrl({ "/api/patients/pt-001": { body: maya } });
+    renderChart();
+    // Rendered from the start, so its own data request isn't delayed behind the patient's...
     expect(screen.getByText("section content")).toBeInTheDocument();
+    // ...but not shown until the banner confirms whose chart this is.
+    expect(screen.getByText("section content")).not.toBeVisible();
+    await screen.findByRole("heading", { level: 1, name: "Chen, Maya" });
+    expect(screen.getByText("section content")).toBeVisible();
   });
 
   it("marks the current section and links every section for this patient", async () => {
@@ -91,7 +102,7 @@ describe("PatientChartLayout", () => {
     ).toHaveAttribute("href", "/patients");
   });
 
-  it("shows 'Patient not found' for an unknown patient, without rendering the sections", async () => {
+  it("shows 'Patient not found' for an unknown patient and keeps the sections hidden", async () => {
     mockParams = { patientId: "pt-999" };
     mockFetchByUrl({});
     renderChart();
@@ -99,7 +110,7 @@ describe("PatientChartLayout", () => {
     expect(
       screen.getByRole("link", { name: "Back to patients" }),
     ).toHaveAttribute("href", "/patients");
-    expect(screen.queryByText("section content")).not.toBeInTheDocument();
+    expect(screen.getByText("section content")).not.toBeVisible();
   });
 
   it("shows an error with retry for other failures, and recovers", async () => {
