@@ -3,7 +3,7 @@
 A clinical patient-overview app built with **Next.js, React and TypeScript**. Search a patient directory, open a
 patient chart, and review conditions, encounters, observations and medications in an enterprise-style interface.
 
-> **Status:** planning complete; implementation starting (milestone M0). See [`PROGRESS.md`](PROGRESS.md).
+> **Status:** milestone M0 (foundation). See [`PROGRESS.md`](PROGRESS.md).
 
 ## What it demonstrates
 - React component architecture and composition
@@ -19,7 +19,22 @@ FHIR and HL7 integration are possible later extensions. Plan: [`PROJECT_PLAN.md`
 architecture: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## Setup
-Added once the app is scaffolded (M0). Requires Node 24.
+Requires Node 24 (see `.nvmrc`).
+
+```bash
+npm install
+npm run dev        # http://localhost:3000
+```
+
+| Command | What it does |
+|---|---|
+| `npm run lint` | ESLint (Next.js rules) |
+| `npm run typecheck` | TypeScript, strict |
+| `npm run format` / `format:check` | Prettier |
+| `npm test` | Jest + React Testing Library |
+| `npm run build` | Production build |
+
+CI runs lint, typecheck, format check, tests and build on every pull request.
 
 ## Privacy and limitations
 - Synthetic, fictional data only.
